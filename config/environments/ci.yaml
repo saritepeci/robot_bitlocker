@@ -1,0 +1,30 @@
+# =============================================================================
+# CI environment — OVERRIDES only.
+# =============================================================================
+# Deep-merged on top of default.yaml. Used by the GitHub Actions / Azure DevOps
+# pipelines (see docs/06_CICD.md).
+#
+# Select it with:  robot --variable ENVIRONMENT:ci tests
+#              or:  make test ENV=ci
+#
+# In a REAL pipeline the secret values below would be injected from the CI secret
+# store via the `${env:NAME}` placeholders, e.g.:
+#   credentials:
+#     smart_card:
+#       pin: "${env:SMART_CARD_PIN}"
+#     windows:
+#       password: "${env:WINDOWS_PASSWORD}"
+# -----------------------------------------------------------------------------
+
+environment: ci
+
+backend:
+  simulated:
+    # Zero latency: keep the pipeline as fast as possible.
+    action_delay_seconds: 0.0
+
+diagnostics:
+  # Always capture diagnostics in CI — you cannot re-run a transient failure on
+  # the agent's screen after the fact.
+  capture_on_failure: true
+  artifacts_dir: "results/diagnostics"

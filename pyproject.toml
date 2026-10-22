@@ -1,0 +1,47 @@
+# =============================================================================
+# Project metadata & Python tooling configuration.
+# =============================================================================
+# We keep tool configuration centralized here (single source of truth) instead
+# of scattering .cfg/.ini files across the repository. This is the modern,
+# PEP 518/621 way to describe a Python project.
+# -----------------------------------------------------------------------------
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "robot-bitlocker-framework"
+version = "1.0.0"
+description = "Educational, production-grade Robot Framework reference architecture for testing a BitLocker + Smart Card protected Windows PC."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "robotframework==7.5",
+    "PyYAML==6.0.2",
+]
+
+# This repository is RUN IN-PLACE (via `--pythonpath libraries variables`), not
+# installed as a wheel — which is the norm for a Robot Framework test project.
+# We therefore tell setuptools there is nothing to *install* so that an
+# accidental `pip install .` does not fail on multi-top-level auto-discovery.
+# The import path is provided by the Makefile / CI, see docs/04_GETTING_STARTED.md.
+[tool.setuptools]
+py-modules = []
+
+# -----------------------------------------------------------------------------
+# Robocop (static analysis for .robot files). These rules encode the naming
+# conventions documented in docs/02_NAMING_CONVENTIONS.md so the CI pipeline can
+# enforce them automatically rather than relying on code review alone.
+# -----------------------------------------------------------------------------
+[tool.robocop]
+exclude = [
+    "missing-doc-test-case",  # Suite-level documentation is sufficient for data-driven rows.
+]
+
+[tool.robocop.lint]
+# Enforce a consistent line length across all .robot files.
+configure = [
+    "line-too-long.line_length=120",
+]

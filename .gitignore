@@ -1,0 +1,45 @@
+# =============================================================================
+# Git ignore rules
+# =============================================================================
+
+# --- Robot Framework output artifacts -----------------------------------------
+# Generated on every run; never commit them. CI publishes them as build
+# artifacts instead (see .github/workflows/ci.yml).
+results/
+output.xml
+log.html
+report.html
+*.rebot
+pabot_results/
+.pabotsuitenames
+
+# --- Python -------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# --- Virtual environments -----------------------------------------------------
+.venv/
+venv/
+env/
+
+# --- Local secrets / overrides ------------------------------------------------
+# Real credentials must NEVER be committed. They are supplied through
+# environment variables or a local, git-ignored override file.
+# See docs/01_ARCHITECTURE.md ("Centralized configuration & secrets").
+config/environments/local.override.yaml
+.env
+
+# --- IDE / OS -----------------------------------------------------------------
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
