@@ -21,13 +21,13 @@ Empty Credentials Are Rejected      ${EMPTY}                ${EMPTY}            
 
 *** Keywords ***
 Verify Windows Login Outcome
-    [Arguments]    ${username}    ${password}    ${expected_outcome}
     [Documentation]    Template keyword shared by every data row.
     ...
     ...                The sentinel ``USE_CONFIGURED`` is translated to ${None} so the
     ...                domain keyword falls back to the configured secret — this is how
     ...                the happy-path row signs in WITHOUT the password ever appearing
     ...                in the test data or the log (see variables/environment.py).
+    [Arguments]    ${username}    ${password}    ${expected_outcome}
     ${user}=    Set Variable If    '${username}' == 'USE_CONFIGURED'    ${None}    ${username}
     ${pass}=    Set Variable If    '${password}' == 'USE_CONFIGURED'    ${None}    ${password}
     IF    '${expected_outcome}' == 'SUCCESS'

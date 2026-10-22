@@ -31,17 +31,24 @@ dependencies = [
 py-modules = []
 
 # -----------------------------------------------------------------------------
-# Robocop (static analysis for .robot files). These rules encode the naming
-# conventions documented in docs/02_NAMING_CONVENTIONS.md so the CI pipeline can
-# enforce them automatically rather than relying on code review alone.
+# Robocop 6+ is a single tool that both LINTS (`robocop check`) and FORMATS
+# (`robocop format`) .robot files; it replaces the old robocop + robotidy pair.
+# Centralizing its configuration here lets CI enforce the conventions documented
+# in docs/02_NAMING_CONVENTIONS.md automatically rather than relying on review.
+#
+# NOTE on config structure (easy to get wrong): linter options live under
+# [tool.robocop.lint]. Placing these keys directly under [tool.robocop] silently
+# has NO effect, and the keys are `select` / `ignore` / `configure` (there is no
+# `exclude`/`include` key — using them raises "Unknown configuration key").
 # -----------------------------------------------------------------------------
-[tool.robocop]
-exclude = [
-    "missing-doc-test-case",  # Suite-level documentation is sufficient for data-driven rows.
-]
-
 [tool.robocop.lint]
-# Enforce a consistent line length across all .robot files.
+# Enforce a consistent maximum line length across all .robot files. 120 is also
+# Robocop's default; we state it explicitly so the contract is visible and stable
+# even if a future Robocop release changes the default.
 configure = [
     "line-too-long.line_length=120",
 ]
+# To silence a rule that genuinely conflicts with a deliberate convention, add its
+# name here, e.g. ignore = ["missing-doc-test-case"]. We keep this list empty on
+# purpose: every rule the default profile raises on this repo is worth fixing.
+ignore = []

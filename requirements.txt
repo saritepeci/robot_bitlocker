@@ -27,6 +27,5 @@ PyYAML==6.0.2
 # Optional (recommended) — install with `pip install -r requirements-dev.txt`.
 # Kept out of the runtime requirements so production CI images stay small.
 #   robotframework-pabot     # parallel suite execution (see docs/06_CICD.md)
-#   robotframework-robocop   # static analysis / linting for .robot files
-#   robotframework-tidy      # autoformatter for .robot files
+#   robotframework-robocop   # lint (`robocop check`) + format (`robocop format`)
 # -----------------------------------------------------------------------------

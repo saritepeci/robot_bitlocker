@@ -1,3 +1,4 @@
+*** Comments ***
 # =============================================================================
 # system_states.resource — the human-readable facade over the state engine.
 # =============================================================================
@@ -14,6 +15,7 @@
 #     use identical language.
 # =============================================================================
 
+
 *** Settings ***
 Documentation       Facade keywords for requesting system states (the reusable
 ...                 precondition primitives). Business suites should prefer these
@@ -23,37 +25,42 @@ Library             orchestration.StateManager
 
 *** Keywords ***
 Ensure System Is In State
-    [Arguments]    ${target_state}
     [Documentation]    Generic facade: drive the machine to ${target_state},
     ...                executing only the transitions that are missing. Returns the
     ...                list of executed transition names (empty if already there).
+    [Arguments]    ${target_state}
     ${executed}=    Ensure System State    ${target_state}
     RETURN    ${executed}
 
 # --- State A ------------------------------------------------------------------
+
 Given The Machine Is Powered Off
     [Documentation]    Precondition: the machine is in State A (powered off).
     Ensure System Is In State    ${STATE_POWERED_OFF}
 
 # --- State B ------------------------------------------------------------------
+
 Given The BitLocker Preboot Screen Is Visible
     [Documentation]    Precondition: the machine is in State B (BitLocker pre-boot
     ...                authentication screen visible).
     Ensure System Is In State    ${STATE_BITLOCKER_PREBOOT}
 
 # --- State C ------------------------------------------------------------------
+
 Given The Windows Logon Screen Is Visible
     [Documentation]    Precondition: the machine is in State C (Windows logon
     ...                screen visible).
     Ensure System Is In State    ${STATE_WINDOWS_LOGON}
 
 # --- State D ------------------------------------------------------------------
+
 Given The User Is Logged In
     [Documentation]    Precondition: the machine is in State D (user authenticated,
     ...                session initializing).
     Ensure System Is In State    ${STATE_USER_LOGGED_IN}
 
 # --- State E ------------------------------------------------------------------
+
 Given The Desktop Is Ready
     [Documentation]    Precondition: the machine is in State E (desktop fully
     ...                loaded and interactive). This is the precondition the
@@ -61,7 +68,8 @@ Given The Desktop Is Ready
     Ensure System Is In State    ${STATE_DESKTOP_READY}
 
 # --- Assertion helper ---------------------------------------------------------
+
 System Should Be In State
-    [Arguments]    ${expected_state}
     [Documentation]    Assert the machine is currently in ${expected_state}.
+    [Arguments]    ${expected_state}
     System State Should Be    ${expected_state}

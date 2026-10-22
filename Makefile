@@ -54,7 +54,7 @@ lint:  ## Static-analyse the .robot files (requires install-dev).
 	robocop check .
 
 format:  ## Autoformat the .robot files (requires install-dev).
-	robotidy .
+	robocop format .
 
 clean:  ## Remove generated artifacts.
 	rm -rf $(RESULTS_DIR) pabot_results .pabotsuitenames output.xml log.html report.html

@@ -1,3 +1,4 @@
+*** Comments ***
 # =============================================================================
 # common_keywords.resource — small, generic, cross-cutting keywords.
 # =============================================================================
@@ -6,6 +7,7 @@
 # live in states/ and workflows/. Keeping this file generic prevents it from
 # becoming a dumping ground (a common anti-pattern in large Robot projects).
 # =============================================================================
+
 
 *** Settings ***
 Documentation       Generic, cross-cutting helper keywords (bootstrap, logging).

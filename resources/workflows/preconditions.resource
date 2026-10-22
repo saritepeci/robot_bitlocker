@@ -1,3 +1,4 @@
+*** Comments ***
 # =============================================================================
 # preconditions.resource — composable, named, higher-level preconditions.
 # =============================================================================
@@ -12,6 +13,7 @@
 # re-implementing navigation. Add a new named precondition here and the whole
 # estate can reuse it immediately.
 # =============================================================================
+
 
 *** Settings ***
 Documentation       Composable, named preconditions built on the state facades and

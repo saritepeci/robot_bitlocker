@@ -9,9 +9,10 @@
 # Parallel execution of Robot suites (see docs/06_CICD.md).
 robotframework-pabot==4.1.0
 
-# Static analysis (linting) for .robot files — enforces the conventions in
-# docs/02_NAMING_CONVENTIONS.md as part of CI.
-robotframework-robocop==5.7.0
-
-# Opinionated autoformatter for .robot files.
-robotframework-tidy==4.16.0
+# Static analysis AND autoformatting for .robot files. Robocop 6+ merged the old
+# `robotframework-tidy` (robotidy) formatter into a single tool:
+#   * `robocop check`  -> lint  (see `make lint`)
+#   * `robocop format` -> format (see `make format`)
+# It enforces the conventions in docs/02_NAMING_CONVENTIONS.md. Pinned for
+# reproducible CI; compatible with the robotframework version in requirements.txt.
+robotframework-robocop==9.1.0

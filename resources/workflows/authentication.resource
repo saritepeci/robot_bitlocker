@@ -1,3 +1,4 @@
+*** Comments ***
 # =============================================================================
 # authentication.resource — reusable, business-level authentication actions.
 # =============================================================================
@@ -15,6 +16,7 @@
 #   logic — only two intention-revealing entry points.
 # =============================================================================
 
+
 *** Settings ***
 Documentation       Reusable, business-level authentication actions composed from
 ...                 the domain libraries. Use these to exercise an auth step
@@ -27,20 +29,18 @@ Library             domain.DesktopStateLibrary
 
 *** Keywords ***
 Insert Smart Card And Unlock BitLocker
-    [Arguments]    ${pin}=${None}    ${card_id}=${None}
     [Documentation]    Insert the smart card (if not already inserted) and submit
     ...                the PIN to clear BitLocker pre-boot. With no arguments it
     ...                uses the configured card and PIN (the happy path); pass an
     ...                explicit ${pin}/${card_id} to drive negative scenarios.
+    [Arguments]    ${pin}=${None}    ${card_id}=${None}
     ${present}=    Is Smart Card Present
-    IF    not ${present}
-        Insert Smart Card    ${card_id}
-    END
+    IF    not ${present}    Insert Smart Card    ${card_id}
     Unlock BitLocker With Smart Card    ${pin}
 
 Sign In To Windows And Wait For Desktop
-    [Arguments]    ${username}=${None}    ${password}=${None}
     [Documentation]    Submit Windows credentials and block until the desktop is
     ...                interactive. Defaults to the configured test account.
+    [Arguments]    ${username}=${None}    ${password}=${None}
     Log In To Windows    ${username}    ${password}
     Wait Until Desktop Is Ready

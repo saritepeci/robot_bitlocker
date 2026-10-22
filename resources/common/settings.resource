@@ -1,3 +1,4 @@
+*** Comments ***
 # =============================================================================
 # settings.resource — the single import hub for every test suite.
 # =============================================================================
@@ -15,6 +16,7 @@
 #   ROBOT_ENVIRONMENT OS variable (default: "default"), set by the Makefile/CI.
 # =============================================================================
 
+
 *** Settings ***
 Documentation       Central import hub: pulls in configuration, domain libraries,
 ...                 the state-management facade, and the reusable resource layers.
@@ -23,16 +25,16 @@ Documentation       Central import hub: pulls in configuration, domain libraries
 # 1) Configuration variables (must load first — see note above).
 Variables           environment.py    %{ROBOT_ENVIRONMENT=default}
 
-# 2) The orchestration facade (state-aware navigation) and domain libraries.
+# 2) Selected Robot standard libraries (BuiltIn/standard imports come first).
+Library             Collections
+
+# 3) The orchestration facade (state-aware navigation) and domain libraries.
 Library             orchestration.StateManager
 Library             domain.MachineControlLibrary
 Library             domain.SmartCardLibrary
 Library             domain.BitLockerLibrary
 Library             domain.WindowsLoginLibrary
 Library             domain.DesktopStateLibrary
-
-# 3) Selected Robot standard libraries used across suites.
-Library             Collections
 
 # 4) Higher-level, human-readable resource layers built on the above.
 Resource            common_keywords.resource

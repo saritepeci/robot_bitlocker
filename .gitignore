@@ -25,6 +25,10 @@ __pycache__/
 build/
 dist/
 
+# --- Tooling caches -----------------------------------------------------------
+# Robocop writes an incremental-analysis cache here; it is machine-local.
+.robocop_cache/
+
 # --- Virtual environments -----------------------------------------------------
 .venv/
 venv/
