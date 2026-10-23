@@ -1,0 +1,61 @@
+# =============================================================================
+# DEFAULT (base) environment configuration.
+# =============================================================================
+# This is the single source of truth for *default* configuration values. Every
+# other environment file (local.yaml, ci.yaml, ...) is a thin OVERRIDE that is
+# deep-merged on top of this file by libraries/core/configuration.py.
+#
+# WHY a layered base + overrides model?
+#   * DRY: shared values are declared exactly once, here.
+#   * Clarity: an environment file shows only what makes it *different*.
+#   * Safety: forgetting to set a key in an override falls back to a sane value.
+#
+# SECRETS POLICY (read this before adding anything sensitive):
+#   The credentials below are FAKE values used only to drive the in-memory
+#   simulator. NEVER put real PINs/passwords in a committed file. Any value may
+#   be overridden at runtime by an environment variable using the `${env:NAME}`
+#   placeholder syntax, which configuration.py resolves at load time, e.g.
+#       pin: "${env:SMART_CARD_PIN}"
+#   In CI you inject those via GitHub Actions secrets / Azure DevOps variable
+#   groups. See docs/01_ARCHITECTURE.md -> "Centralized configuration & secrets".
+# -----------------------------------------------------------------------------
+
+environment: default
+
+# Which System-Under-Test adapter to use. The framework talks to the SUT ONLY
+# through the SystemBackend interface, so swapping 'simulated' for a real driver
+# (e.g. 'winappdriver') changes nothing in the tests, keywords, or state model.
+backend:
+  type: simulated
+  # Options consumed by libraries/backends/simulated_backend.py.
+  simulated:
+    # Artificial latency per action. Kept at 0 so CI is fast; raise it locally
+    # to emulate a slow machine and shake out race conditions in your waits.
+    action_delay_seconds: 0.0
+    # The simulator powers on into the BitLocker pre-boot screen, mirroring a
+    # real encrypted machine. Set to true to model a device that auto-unlocks.
+    tpm_auto_unlock: false
+
+# Credentials consumed by the transitions in the state machine. FAKE — see note.
+credentials:
+  smart_card:
+    card_id: "SIMULATED-CARD-0001"
+    # Fake 6-digit PIN for the simulator only. Override via ${env:SMART_CARD_PIN}.
+    pin: "000000"
+  windows:
+    username: "test.user"
+    # Fake placeholder for the simulator only. Override via ${env:WINDOWS_PASSWORD}.
+    password: "simulated-only-not-a-real-secret"
+
+# Timeouts (seconds). Centralized so no test ever hardcodes a magic number.
+timeouts:
+  default_seconds: 30
+  bitlocker_unlock_seconds: 45
+  windows_login_seconds: 60
+  desktop_ready_seconds: 90
+
+# Failure diagnostics behaviour, consumed by the DiagnosticsListener.
+diagnostics:
+  capture_on_failure: true
+  # Where the listener writes screenshots / state snapshots on failure.
+  artifacts_dir: "results/diagnostics"

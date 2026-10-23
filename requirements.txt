@@ -1,0 +1,31 @@
+# =============================================================================
+# Python runtime dependencies for the BitLocker test automation framework.
+# =============================================================================
+#
+# WHY pin versions?
+#   Reproducible builds. A test framework that "worked yesterday" but silently
+#   upgrades a transitive dependency tomorrow is a maintenance nightmare across
+#   multiple teams and years. We pin the tools we directly depend on and let a
+#   lock file / CI cache handle the rest.
+#
+# WHY so few dependencies?
+#   This reference framework runs end-to-end against a *simulated* backend so it
+#   stays green in CI without real hardware. Real integrations (pywinauto,
+#   WinAppDriver, smart-card middleware, etc.) are introduced behind the
+#   `SystemBackend` interface and therefore do not belong in the core
+#   requirements. See docs/01_ARCHITECTURE.md ("Backends") for the extension
+#   points and the exact libraries you would add for a real Windows target.
+# -----------------------------------------------------------------------------
+
+# Core test runner.
+robotframework==7.5
+
+# YAML parsing for the layered, environment-aware configuration files.
+PyYAML==6.0.2
+
+# -----------------------------------------------------------------------------
+# Optional (recommended) — install with `pip install -r requirements-dev.txt`.
+# Kept out of the runtime requirements so production CI images stay small.
+#   robotframework-pabot     # parallel suite execution (see docs/06_CICD.md)
+#   robotframework-robocop   # lint (`robocop check`) + format (`robocop format`)
+# -----------------------------------------------------------------------------

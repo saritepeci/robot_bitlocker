@@ -1,0 +1,18 @@
+# =============================================================================
+# Optional developer / CI tooling.  Install with:
+#   pip install -r requirements-dev.txt
+# =============================================================================
+
+# Always install the runtime requirements as well.
+-r requirements.txt
+
+# Parallel execution of Robot suites (see docs/06_CICD.md).
+robotframework-pabot==4.1.0
+
+# Static analysis AND autoformatting for .robot files. Robocop 6+ merged the old
+# `robotframework-tidy` (robotidy) formatter into a single tool:
+#   * `robocop check`  -> lint  (see `make lint`)
+#   * `robocop format` -> format (see `make format`)
+# It enforces the conventions in docs/02_NAMING_CONVENTIONS.md. Pinned for
+# reproducible CI; compatible with the robotframework version in requirements.txt.
+robotframework-robocop==9.1.0

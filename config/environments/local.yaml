@@ -1,0 +1,20 @@
+# =============================================================================
+# LOCAL developer environment — OVERRIDES only.
+# =============================================================================
+# Deep-merged on top of default.yaml. Shows ONLY the keys that differ, which is
+# exactly what makes override files easy to review and reason about.
+#
+# Select it with:  robot --variable ENVIRONMENT:local tests
+#              or:  make test ENV=local
+# -----------------------------------------------------------------------------
+
+environment: local
+
+backend:
+  simulated:
+    # Emulate a slightly sluggish machine locally so that flaky waits surface
+    # during development instead of in the pipeline.
+    action_delay_seconds: 0.05
+
+diagnostics:
+  capture_on_failure: true

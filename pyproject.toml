@@ -1,0 +1,54 @@
+# =============================================================================
+# Project metadata & Python tooling configuration.
+# =============================================================================
+# We keep tool configuration centralized here (single source of truth) instead
+# of scattering .cfg/.ini files across the repository. This is the modern,
+# PEP 518/621 way to describe a Python project.
+# -----------------------------------------------------------------------------
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "robot-bitlocker-framework"
+version = "1.0.0"
+description = "Educational, production-grade Robot Framework reference architecture for testing a BitLocker + Smart Card protected Windows PC."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "robotframework==7.5",
+    "PyYAML==6.0.2",
+]
+
+# This repository is RUN IN-PLACE (via `--pythonpath libraries variables`), not
+# installed as a wheel — which is the norm for a Robot Framework test project.
+# We therefore tell setuptools there is nothing to *install* so that an
+# accidental `pip install .` does not fail on multi-top-level auto-discovery.
+# The import path is provided by the Makefile / CI, see docs/04_GETTING_STARTED.md.
+[tool.setuptools]
+py-modules = []
+
+# -----------------------------------------------------------------------------
+# Robocop 6+ is a single tool that both LINTS (`robocop check`) and FORMATS
+# (`robocop format`) .robot files; it replaces the old robocop + robotidy pair.
+# Centralizing its configuration here lets CI enforce the conventions documented
+# in docs/02_NAMING_CONVENTIONS.md automatically rather than relying on review.
+#
+# NOTE on config structure (easy to get wrong): linter options live under
+# [tool.robocop.lint]. Placing these keys directly under [tool.robocop] silently
+# has NO effect, and the keys are `select` / `ignore` / `configure` (there is no
+# `exclude`/`include` key — using them raises "Unknown configuration key").
+# -----------------------------------------------------------------------------
+[tool.robocop.lint]
+# Enforce a consistent maximum line length across all .robot files. 120 is also
+# Robocop's default; we state it explicitly so the contract is visible and stable
+# even if a future Robocop release changes the default.
+configure = [
+    "line-too-long.line_length=120",
+]
+# To silence a rule that genuinely conflicts with a deliberate convention, add its
+# name here, e.g. ignore = ["missing-doc-test-case"]. We keep this list empty on
+# purpose: every rule the default profile raises on this repo is worth fixing.
+ignore = []
